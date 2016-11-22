@@ -6,4 +6,5 @@ if(isset($_SESSION['user_email'])){
 }else{
     require 'partials/intro.php';
 }
- require 'partials/footer.php'; ?>
+ require 'partials/footer.php'; 
+?>

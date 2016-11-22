@@ -1,3 +1,15 @@
+<?php
+if(isset($_SESSION['user_id'])){
+    echo 'You are logged in';
+}else{
+    echo '<h1>You are not logged in';
+}
+?>
+
+
+<!--nav goes here-->
+
+<!--hero image will go here-->
 
 
 

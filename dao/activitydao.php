@@ -3,7 +3,7 @@
 /**
  * Description of BookingDao
  *
- * @author richard_lovell
+ * @author caoline_fitall
  */
 class ActivityDao {
     
@@ -35,7 +35,7 @@ class ActivityDao {
      * @return Todo Todo or <i>null</i> if not found
      */
     public function findById($id) {
-        $row = $this->query('SELECT * FROM bookings WHERE status != "deleted" and id = ' . (int) $id)->fetch();
+        $row = $this->query('SELECT * FROM activities WHERE status != "deleted" and id = ' . (int) $id)->fetch();
         if (!$row) {
             return null;
         }
@@ -63,7 +63,7 @@ class ActivityDao {
      */
     public function delete($id) {
         $sql = '
-            UPDATE bookings SET
+            UPDATE activities SET
                 status = :status
             WHERE
                 id = :id';
@@ -123,9 +123,9 @@ class ActivityDao {
         $activity->setId(null);
         $activity->setStatus('pending');
         $sql = '
-            INSERT INTO bookings (id, activity_name, flight_date, status, user_id)
-                VALUES (:id, :flight_name, :flight_date, :status, :user_id)';
-        return $this->execute($sql, $booking);
+            INSERT INTO activities (id, activity_name, user_id)
+                VALUES (:id, :activity_name, :activity_id)';
+        return $this->execute($sql, $activity);
     }
 
     /**
@@ -136,7 +136,6 @@ class ActivityDao {
         $sql = '
             UPDATE activities SET
                 activity_name = :activity_name,
-                flight_date = :flight_date,
                 status = :status,
                 user_id = :user_id
             WHERE
@@ -165,9 +164,7 @@ class ActivityDao {
         $params = array(
             ':id' => $activity->getId(),
             ':activity_name' => $activity->getActivityName(),
-            ':flight_date' => self::formatDateTime($booking->getFlightDate()),
-            ':status' => $booking->getStatus(),
-            ':user_id' => $booking->getUserId()
+            
         );
 //        var_dump($booking);
 //        echo '<br>';

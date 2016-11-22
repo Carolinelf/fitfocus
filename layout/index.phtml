@@ -1,41 +1,47 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <title><?= $headTemplate->getTitle(); ?></title>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-    <meta name="description" content="TODO List - sample application for NetBeans IDE" />
-    <meta name="keywords" content="Fit Focus, fitness, mind, health, wellbeing" />
-    <meta name="author" content="NetBeans PHP team" />
-    <link href="css/main.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    
-        
+    <head>
+        <title><?= $headTemplate->getTitle(); ?></title>
+        <meta charset="UTF-8">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+            <meta name="description" content="TODO List - sample application for NetBeans IDE" />
+            <meta name="keywords" content="Fit Focus, fitness, mind, health, wellbeing" />
+            <meta name="author" content="NetBeans PHP team" />
+            <link href="css/main.css" rel="stylesheet">
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css" rel="stylesheet">
+                    </head>
+                    <body>
 
-    <header>
-        
- <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Works</a></li>
-            <li><a href="#">News</a></li>
-            <li><a href="#">Contact</a></li>
-            <li>
-              <a class="btn btn-default btn-outline btn-circle collapsed"  data-toggle="collapse" href="#nav-collapse1" aria-expanded="false" aria-controls="nav-collapse1">Categories</a>
-            </li>
-          </ul>
-        <a href="index.php?module=user&page=list">Users</a></br>
-        <a href="index.php?module=auth&page=login-add-edit">Login</a>
-        <a href="index.php?module=auth&page=login-add-edit">Logout</a>
-        <a href="index.php?module=user&page=add-edit">Register</a>
-        <a href="index.php?module=booking&page=list">Bookings</a></br>
-        <a href="index.php?module=booking&page=add-edit">• Add a Booking</a>
-    </header>
-    <main class="container"><?php require $template; ?></main>
-    <footer></footer>
-</body>
-</html>
+
+
+                        <header>
+
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">About</a></li>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">Works</a></li>
+                                <li><a href="#">News</a></li>
+                                <li><a href="#">Contact</a></li>
+                                <li>
+                                    <a class="btn btn-default btn-outline btn-circle collapsed"  data-toggle="collapse" href="#nav-collapse1" aria-expanded="false" aria-controls="nav-collapse1">Categories</a>
+                                </li>
+                            </ul>
+                            <a href="index.php?module=user&page=list">Users</a></br>
+                            <?php if (!isset($_SESSION['user_id'])): ?>
+                                <a href="index.php?module=auth&page=login-add-edit">Login</a>
+                            <?php else: ?>
+                                <a href="index.php?module=auth&page=login-add-edit">Logout</a>
+                            <?php endif; ?>
+                            <a href="index.php?module=user&page=add-edit">Register</a>
+                            <a href="index.php?module=activity&page=list">Activities</a></br>
+                            <a href="index.php?module=activity&page=add-edit">• Add an Activity</a>
+                        </header>
+                        
+                        
+                        
+                        <main class="container"><?php require $template; ?></main>
+                        <footer></footer>
+                    </body>
+                    </html>

@@ -47,24 +47,24 @@
 //  $todos - TODOs to be displayed
 ?>
 
-<h1>Bookings</h1>
+<h1>Activities</h1>
 
-<?php if (empty($bookings)): ?>
+<?php if (empty($activities)): ?>
     <p>No bookings found.</p>
 <?php else: ?>
     <ul class="list">
-        <?php foreach ($bookings as $booking): ?>
+        <?php foreach ($activities as $activity): ?>
             <li>                
                 <h3><a href="<?php echo Utils::createLink('detail', 
-                        array('id' => $booking->getId())) ?>"><?php 
-                        echo Utils::escape($booking->getflightName()); ?></a></h3>  
-                <p><span class="label">Flight Date:</span> <?php 
-                echo Utils::escape(Utils::formatDate($booking->getFlightDate())); 
+                        array('id' => $activity->getId())) ?>"><?php 
+                        echo Utils::escape($activity->getActivityName()); ?></a></h3>  
+                <p><span class="label">Activity:</span> <?php 
+                echo Utils::escape(Utils::formatDate($activity->getActivityName())); 
                 ?></p>     
                 <p><span class="label">Created On:</span> <?php 
-                echo Utils::escape(Utils::formatDate($booking->getDateCreated())); 
+                echo Utils::escape(Utils::formatDate($activity->getDateCreated())); 
                 ?></p>     
-                <p><a href="index.php?module=booking&page=add-edit&id=<?php echo $booking->getId()?>">Edit</a> | <a href="index.php?module=booking&page=delete&id=<?php echo $booking->getId()?>">Delete</a></p>
+                <p><a href="index.php?module=activities&page=add-edit&id=<?php echo $activity->getId()?>">Edit</a> | <a href="index.php?module=activities&page=delete&id=<?php echo $activity->getId()?>">Delete</a></p>
             </li>
         <?php endforeach; ?>
     </ul>

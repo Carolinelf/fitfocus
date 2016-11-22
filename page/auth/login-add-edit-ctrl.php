@@ -1,4 +1,8 @@
 <?php
+
+//check get for logout
+
+
 $headTemplate = new HeadTemplate('Add/Edit | Fit Focus', 'Edit or add a User');
 
 $errors = '';
@@ -29,9 +33,11 @@ $user->setPassword('');
     
     
     if($email === $user->getEmail() && $password === $user->getPassword()){
+        //session_destroy();
         $_SESSION['user_id'] = $user->getId();
         //$_SESSION['role'] = $role;
         header('Location: index.php');
+        exit;
     }else{
         $errors = 'These credentials are not recognised.';
     }

@@ -1,13 +1,14 @@
 <?php
 
-$headTemplate = new HeadTemplate('Add/Edit | Fly To The Limit', 'Edit or add a Booking');
+$headTemplate = new HeadTemplate('Add/Edit | Fit Focus', 'Edit or add a activity');
         
-$flightNames = ['','Glider', 'Helicopter Sightseeing', 'Tramping excursion', 'Heliskiing'];
+$activityNames = ['bench press', 'curl reps', 'squats', 'lunges'];
+$activityNames = ['','bench press', 'curl reps', 'squats', 'lunges'];
 $errors = array();
 $todo = null;
 $edit = array_key_exists('id', $_GET);
 if ($edit) {
-    $dao = new BookingDao();
+    $dao = new ActivityDao();
     $booking = Utils::getObjByGetId($dao);
 } else {
     // set defaults

@@ -84,7 +84,7 @@ function error_field($title, array $errors) {
             <label>Activity name:</label>
             <select name="activity[activity_name]">
             <?php foreach ($activityNames as $activityName): ?>
-                <option value="<?php echo $flightName; ?>"
+                <option value="<?php echo $activityName; ?>"
                     <?php if ($activity->getActivityName() == $activityName): ?>
                             selected="selected"
                         <?php endif; ?>
