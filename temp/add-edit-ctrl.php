@@ -9,17 +9,15 @@ $todo = null;
 $edit = array_key_exists('id', $_GET);
 if ($edit) {
     $dao = new ActivityDao();
-    $booking = Utils::getObjByGetId($dao);
+    $activity = Utils::getObjByGetId($dao);
 } else {
     // set defaults
-    $booking = new Booking();
-    $booking->setFlightName('');
-    $flightDate = new DateTime("+1 day");
-    $flightDate->setTime(0, 0, 0);
-    $booking->setFlightDate($flightDate);
-    $booking->setStatus('pending');
+    $activity = new Activity();
+    $activity->setActivityName('');
+    
+    $activity->setStatus('pending');
     $userId = 1;
-    $booking->setUserId($userId);
+    $activity->setUserId($userId);
 }
 
 //if (array_key_exists('cancel', $_POST)) {
@@ -30,24 +28,24 @@ if ($edit) {
 if (array_key_exists('save', $_POST)) {
     // for security reasons, do not map the whole $_POST['todo']
     $data = array(
-        'flight_name' => $_POST['booking']['flight_name'],
-        'flight_date' => $_POST['booking']['flight_date'] . ' 00:00:00'
+        'activity_name' => $_POST['activity']['activity_name'],
+        
     );
     
 //    var_dump($data);
 //    die();
         
     // map
-    BookingMapper::map($booking, $data);
+    Activity::map($activity, $data);
     // validate
-    $errors = BookingValidator::validate($booking);
+    $errors = ActivityValidator::validate($activity);
     // validate
     if (empty($errors)) {
         // save
-        $dao = new BookingDao();
-        $booking = $dao->save($booking);
-        Flash::addFlash('Booking saved successfully.');
+        $dao = new ActivityDao();
+        $activity = $dao->save($activity);
+        Flash::addFlash('Activity saved successfully.');
         // redirect
-        Utils::redirect('list', array('module'=>'booking'));
+        Utils::redirect('list', array('module'=>'activity'));
     }
 }

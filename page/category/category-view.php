@@ -40,31 +40,33 @@
  *
  * Portions Copyrighted 2011 Sun Microsystems, Inc.
  */
+
 //~ Template for list.php
 // variables:
 //  $title - page title
 //  $status - status of TODOs to be displayed
 //  $todos - TODOs to be displayed
+
 ?>
 
-<h1>Activities</h1>
+<h1>Categories</h1>
 
-<?php if (empty($activities)): ?>
-    <p>No bookings found.</p>
+<?php if (empty($categroy)): ?>
+    <p>No categories found.</p>
 <?php else: ?>
+  
     <ul class="list">
-        <?php foreach ($activities as $activity): ?>
+        <?php foreach ($category as $category): ?>
             <li>                
                 <h3><a href="<?php echo Utils::createLink('detail', 
-                        array('id' => $activity->getId())) ?>"><?php 
-                        echo Utils::escape($activity->getActivityName()); ?></a></h3>  
-                <p><span class="label">Activity:</span> <?php 
-                echo Utils::escape(Utils::formatDate($activity->getActivityName())); 
-                ?></p>     
-                <p><span class="label">Created On:</span> <?php 
-                echo Utils::escape(Utils::formatDate($activity->getDateCreated())); 
-                ?></p>     
-                <p><a href="index.php?module=activities&page=add-edit&id=<?php echo $activity->getId()?>">Edit</a> | <a href="index.php?module=activities&page=delete&id=<?php echo $activity->getId()?>">Delete</a></p>
+                        array('id' => $category->getId())) ?>"><?php 
+                        echo Utils::escape($category->getCategoryName()); ?></a></h3>                
+                <p><span class="label">Category name:</span> <?php 
+                echo Utils::escape(Utils::formatDate($category->getCategoryName())); 
+                ?></p>
+                
+                <p><a href="index.php?module=category&page=add-edit&id=<?php echo $categoryy->getId()?>">Edit</a> 
+               | <a href="index.php?module=category&page=delete&id=<?php echo $category->getId()?>">Delete</a></p>
             </li>
         <?php endforeach; ?>
     </ul>

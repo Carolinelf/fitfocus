@@ -23,8 +23,11 @@ class ActivityDao {
     public function find($sql) {
         $result = array();
         foreach ($this->query($sql) as $row) {
+    
             $activity = new Activity();
+            
             ActivityMapper::map($activity, $row);
+            
             $result[$activity->getId()] = $activity;
         }
         return $result;
@@ -183,7 +186,9 @@ class ActivityDao {
      * @return PDOStatement
      */
     private function query($sql) {
+        
         $statement = $this->getDb()->query($sql, PDO::FETCH_ASSOC);
+        
         if ($statement === false) {
             self::throwDbError($this->getDb()->errorInfo());
         }

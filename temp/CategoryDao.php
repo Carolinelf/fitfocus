@@ -24,10 +24,9 @@ class CategoryDao {
         $result = array();
         foreach ($this->query($sql) as $row) {
             $category = new Category();
-            CategoryMapper::map($category, $row);
-            $result[$category->getId()] = $category;
+            ActivityMapper::map($category, $row);
+            $result[$categoryy->getId()] = $category;
         }
-       
         return $result;
     }
 
@@ -36,12 +35,12 @@ class CategoryDao {
      * @return Todo Todo or <i>null</i> if not found
      */
     public function findById($id) {
-        $row = $this->query('SELECT * FROM category WHERE id = ' . (int) $id)->fetch();
+        $row = $this->query('SELECT * FROM category WHERE status != "deleted" and id = ' . (int) $id)->fetch();
         if (!$row) {
             return null;
         }
         $category = new Category();
-        CategoryMapper::map($category, $row);
+        ActivityMapper::map($category, $row);
         return $category;
     }
 
@@ -50,11 +49,11 @@ class CategoryDao {
      * @param Booking $booking {@link Booking} to be saved
      * @return Booking saved {@link Booking} instance
      */
-    public function save(Category $category) {
-        if ($category->getId() === null) {
-            return $this->insert($category);
+    public function save(Activity $activity) {
+        if ($activity->getId() === null) {
+            return $this->insert($booking);
         }
-        return $this->update($category);
+        return $this->update($activity);
     }
 
     /**
@@ -64,7 +63,7 @@ class CategoryDao {
      */
     public function delete($id) {
         $sql = '
-            UPDATE Category SET
+            UPDATE bookings SET
                 status = :status
             WHERE
                 id = :id';
@@ -119,52 +118,55 @@ class CategoryDao {
      * @return Booking
      * @throws Exception
      */
-    private function insert(Category $category) {
-        
-        $category->setId(null);
-       
+    private function insert(Activity $activity) {
+        $now = new DateTime();
+        $activity->setId(null);
+        $activity->setStatus('pending');
         $sql = '
-            INSERT INTO category (id, name, descripton)
-                VALUES (:id, :name, :description)';
-        return $this->execute($sql, $category);
+            INSERT INTO bookings (id, activity_name, status, user_id)
+                VALUES (:id, :flight_name, :flight_date, :status, :user_id)';
+        return $this->execute($sql, $activity);
     }
 
     /**
      * @return Booking
      * @throws Exception
      */
-    private function update(Category $category) {
+    private function update(Activity $activity) {
         $sql = '
             UPDATE activities SET
-                name = :name,
-                description = :description
+                activity_name = :activity_name,
+                status = :status,
+                user_id = :user_id
             WHERE
                 id = :id';
         
-        return $this->execute($sql, $category);
+        return $this->execute($sql, $activty);
     }
 
     /**
      * @return Booking
      * @throws Exception
      */
-    private function execute($sql, Category $category) {
+    private function execute($sql, Activity $activity) {
         $statement = $this->getDb()->prepare($sql);
-        $this->executeStatement($statement, $this->getParams($category));
-        if (!$category->getId()) {
+        $this->executeStatement($statement, $this->getParams($activity));
+        if (!$activity->getId()) {
             return $this->findById($this->getDb()->lastInsertId());
         }
 //        if (!$statement->rowCount()) {
 //            throw new NotFoundException('Booking with ID "' . $booking->getId() . '" does not exist.');
 //        }
-        return $category;
+        return $activity;
     }
 
-    private function getParams(Category $category) {
+    private function getParams(Activity $activity) {
         $params = array(
-            ':id' => $category->getId(),
-            ':name' => $category->getName(),
-         ':description' => $category->getDescription()
+            ':id' => $activity->getId(),
+            ':activity_name' => $activity->getActivityName(),
+            ':flight_date' => self::formatDateTime($activity->getActivityName()),
+            ':status' => $booking->getStatus(),
+            ':user_id' => $booking->getUserId()
         );
 //        var_dump($booking);
 //        echo '<br>';
@@ -195,5 +197,7 @@ class CategoryDao {
         throw new Exception('DB error [' . $errorInfo[0] . ', ' . $errorInfo[1] . ']: ' . $errorInfo[2]);
     }
 
-    
+    private static function formatDateTime(DateTime $date) {
+        return $date->format(DateTime::ISO8601);
+    }
 }
