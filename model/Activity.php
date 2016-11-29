@@ -10,8 +10,19 @@ class Activity {
     private $categoryId;
     private $imageUrl;
     private $status;
-  
-    function getId() {
+    
+    private $category;
+    
+    
+    function getCategory() {
+        return $this->category;
+    }
+
+    function setCategory(Category $category) {
+        $this->category = $category;
+    }
+
+        function getId() {
         return $this->id;
     }
 

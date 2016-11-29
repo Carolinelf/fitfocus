@@ -1,69 +1,69 @@
 <?php
 
-/**
- * Description of BookingDao
- *
- * @author richard_lovell
- */
-class CategoryDao {
+class adminDao {
     
     /** @var PDO */
     private $db = null;
-
-
+    
     public function __destruct() {
         // close db connection
         $this->db = null;
     }
-
     /**
-     * Find all {@link Booking}s by search criteria.
-     * @return array array of {@link Booking}s
+     * Find all {@link User}s by search criteria.
+     * @return array array of {@link User}s
      */
     public function find($sql) {
         $result = array();
         foreach ($this->query($sql) as $row) {
-            $category = new Category();
-            ActivityMapper::map($category, $row);
-            $result[$categoryy->getId()] = $category;
+            $admin = new admin();
+            AdminMapper::map($admin, $row);
+            $result[$admin->getId()] = $admin;
         }
         return $result;
     }
-
     /**
-     * Find {@link Todo} by identifier.
-     * @return Todo Todo or <i>null</i> if not found
+     * Find {@link User} by identifier.
+     * @return User User or <i>null</i> if not found
      */
     public function findById($id) {
-        $row = $this->query('SELECT * FROM category WHERE status != "deleted" and id = ' . (int) $id)->fetch();
+        $row = $this->query('SELECT * FROM admin WHERE status != "deleted" AND id = ' . (int) $id)->fetch();
         if (!$row) {
             return null;
         }
-        $category = new Category();
-        ActivityMapper::map($category, $row);
-        return $category;
+        $user = new Admin();
+        UserMapper::map($admin, $row);
+        return $admin;
     }
-
-    /**
-     * Save {@link Booking}.
-     * @param Booking $booking {@link Booking} to be saved
-     * @return Booking saved {@link Booking} instance
-     */
-    public function save(Activity $activity) {
-        if ($activity->getId() === null) {
-            return $this->insert($booking);
+    
+    public function findByCredentials($email, $password) {
+        $row = $this->query('SELECT * FROM admin WHERE status != "deleted" AND id = ' . (int) $id)->fetch();
+        if (!$row) {
+            return null;
         }
-        return $this->update($activity);
+        $admin = new Admin();
+        UserMapper::map($admin, $row);
+        return $admin;
     }
-
     /**
-     * Delete {@link Booking} by identifier.
-     * @param int $id {@link Booking} identifier
+     * Save {@link User}.
+     * @param User $user {@link User} to be saved
+     * @return User saved {@link User} instance
+     */
+    public function save(Admin $admin) {
+        if ($admin->getId() === null) {
+            return $this->insert($admin);
+        }
+        return $this->update($admin);
+    }
+    /**
+     * Delete {@link User} by identifier.
+     * @param int $id {@link User} identifier
      * @return bool <i>true</i> on success, <i>false</i> otherwise
      */
     public function delete($id) {
         $sql = '
-            UPDATE bookings SET
+            UPDATE admin SET
                 status = :status
             WHERE
                 id = :id';
@@ -74,7 +74,6 @@ class CategoryDao {
         ));
         return $statement->rowCount() == 1;
     }
-
     /**
      * @return PDO
      */
@@ -90,19 +89,18 @@ class CategoryDao {
         }
         return $this->db;
     }
-
-//    private function getFindSql(TodoSearchCriteria $search = null) {
-//        $sql = 'SELECT * FROM todo WHERE deleted = 0 ';
+//    private function getFindSql(UserSearchCriteria $search = null) {
+//        $sql = 'SELECT * FROM user WHERE deleted = 0 ';
 //        $orderBy = ' priority, due_on';
 //        if ($search !== null) {
 //            if ($search->getStatus() !== null) {
 //                $sql .= 'AND status = ' . $this->getDb()->quote($search->getStatus());
 //                switch ($search->getStatus()) {
-//                    case Todo::STATUS_PENDING:
+//                    case User::STATUS_PENDING:
 //                        $orderBy = 'due_on, priority';
 //                        break;
-//                    case Todo::STATUS_DONE:
-//                    case Todo::STATUS_VOIDED:
+//                    case User::STATUS_DONE:
+//                    case User::STATUS_VOIDED:
 //                        $orderBy = 'due_on DESC, priority';
 //                        break;
 //                    default:
@@ -113,74 +111,70 @@ class CategoryDao {
 //        $sql .= ' ORDER BY ' . $orderBy;
 //        return $sql;
 //    }
-
     /**
-     * @return Booking
+     * @return User
      * @throws Exception
      */
-    private function insert(Activity $activity) {
-        $now = new DateTime();
-        $activity->setId(null);
-        $activity->setStatus('pending');
+    private function insert(admin $user) {
+        //$now = new DateTime();
+        $user->setId(null);
+        $user->setStatus('pending');
         $sql = '
-            INSERT INTO bookings (id, activity_name, status, user_id)
-                VALUES (:id, :flight_name, :flight_date, :status, :user_id)';
-        return $this->execute($sql, $activity);
+            INSERT INTO admin (id, first_name, last_name, email, password, status)
+                VALUES (:id, :first_name, :last_name, :email, :password, :status)';
+        return $this->execute($sql, $user);
     }
-
     /**
-     * @return Booking
+     * @return User
      * @throws Exception
      */
-    private function update(Activity $activity) {
+    private function update(User $user) {
+     //   $user->setLastModifiedOn(new DateTime());
         $sql = '
-            UPDATE Category SET
-                activity_name = :activity_name,
-                status = :status,
-                user_id = :user_id
+  
+            UPDATE admin SET
+                id = :id,
+                first_name = :first_name,
+                last_name = :last_name,
+                email = :email,
+                password = :password,
+                status = :status
             WHERE
                 id = :id';
-        
-        return $this->execute($sql, $activty);
+        return $this->execute($sql, $user);
     }
-
     /**
-     * @return Booking
+     * @return User
      * @throws Exception
      */
-    private function execute($sql, Activity $activity) {
+    private function execute($sql, User $user) {
         $statement = $this->getDb()->prepare($sql);
-        $this->executeStatement($statement, $this->getParams($activity));
-        if (!$activity->getId()) {
+        $this->executeStatement($statement, $this->getParams($user));
+        if (!$user->getId()) {
             return $this->findById($this->getDb()->lastInsertId());
         }
 //        if (!$statement->rowCount()) {
-//            throw new NotFoundException('Booking with ID "' . $booking->getId() . '" does not exist.');
+//            throw new NotFoundException('User with ID "' . $user->getId() . '" does not exist.');
 //        }
-        return $activity;
+        return $user;
     }
-
-    private function getParams(Activity $activity) {
+    private function getParams(Admin $user) {
         $params = array(
-            ':id' => $activity->getId(),
-            ':activity_name' => $activity->getActivityName(),
-            ':flight_date' => self::formatDateTime($activity->getActivityName()),
-            ':status' => $booking->getStatus(),
-            ':user_id' => $booking->getUserId()
+            ':id' => $user->getId(),
+            ':first_name' => $user->getFirstName(),
+            ':last_name' => $user->getLastName(),
+            ':email' => $user->getEmail(),
+            ':password' => $user->getPassword(),
+            ':status' => $user->getStatus()
         );
-//        var_dump($booking);
-//        echo '<br>';
-//        var_dump($params);
-//        die();
+        
         return $params;
     }
-
     private function executeStatement(PDOStatement $statement, array $params) {
         if (!$statement->execute($params)) {
             self::throwDbError($this->getDb()->errorInfo());
         }
     }
-
     /**
      * @return PDOStatement
      */
@@ -191,12 +185,10 @@ class CategoryDao {
         }
         return $statement;
     }
-
     private static function throwDbError(array $errorInfo) {
         // TODO log error, send email, etc.
         throw new Exception('DB error [' . $errorInfo[0] . ', ' . $errorInfo[1] . ']: ' . $errorInfo[2]);
     }
-
     private static function formatDateTime(DateTime $date) {
         return $date->format(DateTime::ISO8601);
     }

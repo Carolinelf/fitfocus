@@ -62,52 +62,47 @@ function error_field($title, array $errors) {
 
 <h1>
     <?php if ($edit): ?>
-        Edit&nbsp;
+    Edit&nbsp;
     <?php else: ?>
-        Add&nbsp; 
+    Add&nbsp;
     <?php endif; ?>
-        new Booking
+    New Booking
 </h1>
 
 <?php if (!empty($errors)): ?>
-    <ul class="errors">
-        <?php foreach ($errors as $error): ?>
-            <?php /* @var $error Error */ ?>
-            <li><?php echo $error->getMessage(); ?></li>
-        <?php endforeach; ?>
-    </ul>
+<ul class="errors">
+    <?php foreach ($errors as $error): ?>
+        <?php /* @var $error Error */ ?>
+        <li><?php echo $error->getMessage(); ?></li>
+    <?php endforeach; ?>
+</ul>
 <?php endif; ?>
 
 <form action="#" method="post">
     <fieldset>
         <div class="field">
-            <label>Activity name:</label>
-            <select name="activity[activity_name]">
-            <?php foreach ($activityNames as $activityName): ?>
-                <option value="<?php echo $activityName; ?>"
-                    <?php if ($activity->getActivityName() == $activityName): ?>
+            <label>Title:</label>
+<select name="title[activity_title]">
+            <?php foreach ($title as $title): ?>
+                <option value="<?php echo $title; ?>"
+                        <?php if ($activity->getTitle() === $title): ?>
                             selected="selected"
                         <?php endif; ?>
-                        ><?php echo $activityName; ?></option>
+                        ><?php echo $Title; ?></option>
             <?php endforeach; ?>
             </select>
-<!--            <select name="booking[flight_name]">
-                <option value="<?php// echo $i; ?>">Helicopter sightseeing</option>
-                <option value="Glider">Glider</option>
-                <option value="Tramping excursion">Tramping excursion</option>
-                <option value="Heliskiing">Heliskiing</option>
-            </select>-->
-<!--            <input type="text" name="booking[flight_name]" value="<?php //echo Utils::escape($booking->getFlightName()); ?>"
-                   class="text<?php //echo error_field('flight_name', $errors); ?>"/>-->
+<!--            <input type="text" name="booking [flight_name]" value="<?php // echo Utils::escape($booking->getFlightName()); ?>"
+                   class="text<?php // echo error_field('flight_name', $errors); ?>"/>-->
         </div>
         <div class="field">
-            <label>Activity type:</label>
-            <input id="flight_date" type="text" name="activity[activity_name]" value="<?php echo Utils::escape($activity->getActivityName()->format('Y-n-j')); ?>"
-                   class="text datepicker<?php echo error_field('activity_name', $errors); ?>" />
+            <label>Details</label>
+            <input id="details" type="text" name="details[details]" value="<?php echo Utils::escape($activity->getFlightDate()->format('Y-n-j')); ?>"
+                   class="text details<?php echo error_field('details', $errors); ?>" />
+            &nbsp;
         </div>
         <div class="wrapper">
-        <!--<input type="submit" name="cancel" value="CANCEL" class="submit" />-->
-            <input type="submit" name="save" value="<?php echo $edit ? 'EDIT' : 'ADD'; ?>" class="submit button" />
+<!--            <input type="submit" name="cancel" value="CANCEL" class="submit" />-->
+            <input type="submit" name="save" value="<?php echo $edit ? 'EDIT' : 'ADD'; ?>" class="submit" />
         </div>
     </fieldset>
 </form>

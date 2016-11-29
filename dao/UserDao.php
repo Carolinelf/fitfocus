@@ -1,5 +1,10 @@
 <?php
 
+
+
+
+
+
 class UserDao {
     
     /** @var PDO */
@@ -37,7 +42,7 @@ class UserDao {
     }
     
     public function findByCredentials($email, $password) {
-        $row = $this->query('SELECT * FROM users WHERE status != "deleted" AND id = ' . (int) $id)->fetch();
+        $row = $this->query('SELECT * FROM `Users` WHERE email="'.$email.'" AND password="'.$password.'";')->fetch();
         if (!$row) {
             return null;
         }

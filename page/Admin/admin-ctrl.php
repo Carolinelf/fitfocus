@@ -13,7 +13,7 @@ if ($edit) {
 } else {
     // set defaults
     $activity = new Activity();
-    $booking->setActivityName('');
+    $activity->setActivityName('');
  
 }
 

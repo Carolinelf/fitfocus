@@ -135,7 +135,7 @@ class CategoryDao {
      */
     private function update(Category $category) {
         $sql = '
-            UPDATE activities SET
+            UPDATE Activity SET
                 name = :name,
                 description = :description
             WHERE

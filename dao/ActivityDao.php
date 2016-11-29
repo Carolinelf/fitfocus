@@ -21,15 +21,17 @@ class ActivityDao {
      * @return array array of {@link Booking}s
      */
     public function find($sql) {
+        
         $result = array();
         foreach ($this->query($sql) as $row) {
     
             $activity = new Activity();
-            
+
             ActivityMapper::map($activity, $row);
-            
+
             $result[$activity->getId()] = $activity;
         }
+        $result[] = $activity;
         return $result;
     }
 
@@ -38,7 +40,7 @@ class ActivityDao {
      * @return Todo Todo or <i>null</i> if not found
      */
     public function findById($id) {
-        $row = $this->query('SELECT * FROM activities WHERE status != "deleted" and id = ' . (int) $id)->fetch();
+        $row = $this->query('SELECT * FROM Activity WHERE status != "deleted" and id = ' . (int) $id)->fetch();
         if (!$row) {
             return null;
         }
@@ -46,6 +48,57 @@ class ActivityDao {
         ActivityMapper::map($activity, $row);
         return $activity;
     }
+    
+      public function findByTitle($id) {
+        $row = $this->query('SELECT * FROM Activity WHERE status != "deleted" and id = ' . (int) $id)->fetch();
+        if (!$row) {
+            return null;
+        }
+        $activity = new Activity();
+        ActivityMapper::map($activity, $row);
+        return $activity;
+    }
+    
+      public function findByDetails($id) {
+        $row = $this->query('SELECT * FROM activity WHERE status != "deleted" and id = ' . (int) $id)->fetch();
+        if (!$row) {
+            return null;
+        }
+        $activity = new Activity();
+        ActivityMapper::map($activity, $row);
+        return $activity;
+    }
+    
+      public function findByCategoryId($id) {
+        $row = $this->query('SELECT * FROM activity WHERE status != "deleted" and id = ' . (int) $id)->fetch();
+        if (!$row) {
+            return null;
+        }
+        $activity = new Activity();
+        ActivityMapper::map($activity, $row);
+        return $activity;
+    }
+    
+      public function findByImageUrl($id) {
+        $row = $this->query('SELECT * FROM activity WHERE status != "deleted" and id = ' . (int) $id)->fetch();
+        if (!$row) {
+            return null;
+        }
+        $activity = new Activity();
+        ActivityMapper::map($activity, $row);
+        return $activity;
+    }
+    
+      public function findByStatus($id) {
+        $row = $this->query('SELECT * FROM activity WHERE status != "deleted" and id = ' . (int) $id)->fetch();
+        if (!$row) {
+            return null;
+        }
+        $activity = new Activity();
+        ActivityMapper::map($activity, $row);
+        return $activity;
+    }
+    
 
     /**
      * Save {@link Booking}.
@@ -54,7 +107,7 @@ class ActivityDao {
      */
     public function save(Activity $activity) {
         if ($activity->getId() === null) {
-            return $this->insert($booking);
+            return $this->insert($activity);
         }
         return $this->update($activity);
     }
@@ -66,7 +119,7 @@ class ActivityDao {
      */
     public function delete($id) {
         $sql = '
-            UPDATE activities SET
+            UPDATE Activity SET
                 status = :status
             WHERE
                 id = :id';
@@ -122,12 +175,15 @@ class ActivityDao {
      * @throws Exception
      */
     private function insert(Activity $activity) {
-        $now = new DateTime();
         $activity->setId(null);
-        $activity->setStatus('pending');
+        $activity->setTitle('null');
+        $activity->setDetails('null');
+        $activity->setCategoryId('null');
+        $activity->setImageUrl('null');
+        $activity->setStatus('null');
         $sql = '
-            INSERT INTO activities (id, activity_name, user_id)
-                VALUES (:id, :activity_name, :activity_id)';
+            INSERT INTO activity (id, title, details, category_id, image_url, status)
+                VALUES (:id, :title, :details, :category_id, :image_url, : status)';
         return $this->execute($sql, $activity);
     }
 
@@ -137,10 +193,13 @@ class ActivityDao {
      */
     private function update(Activity $activity) {
         $sql = '
-            UPDATE activities SET
-                activity_name = :activity_name,
+            UPDATE activity SET
+                id = :id,
+                title = :title,
+                details = :details,
+                category_id = :category_id,
+                image_url = :image_url,
                 status = :status,
-                user_id = :user_id
             WHERE
                 id = :id';
         
@@ -166,8 +225,11 @@ class ActivityDao {
     private function getParams(Activity $activity) {
         $params = array(
             ':id' => $activity->getId(),
-            ':activity_name' => $activity->getActivityName(),
-            
+            ':title' => $activity->getTitle(),
+            ':details' => $activity->getDetails(),
+            ':category_id' => $activity->getCategoryId(),
+            ':image_url' => $activity->getImage_url(),
+            ':status' => $activity->getStatus(),
         );
 //        var_dump($booking);
 //        echo '<br>';
@@ -200,7 +262,5 @@ class ActivityDao {
         throw new Exception('DB error [' . $errorInfo[0] . ', ' . $errorInfo[1] . ']: ' . $errorInfo[2]);
     }
 
-    private static function formatDateTime(DateTime $date) {
-        return $date->format(DateTime::ISO8601);
-    }
+    
 }

@@ -2,7 +2,7 @@
 if(isset($_SESSION['user_id'])){
 echo 'You are logged in';
 }else{
-echo '<h1>You are not logged in';
+echo 'You are not logged in';
 }
 ?>
 
@@ -11,13 +11,14 @@ echo '<h1>You are not logged in';
 
 <!--hero image will go here-->
 
-
-
+<nav class="navbar navbar-inverse">
+  la la la 
+</nav>
 
 <h1>Welcome to Fit Focus</h1>
-
-<img src="http://placehold.it/850x150" alt="imagetobereplaced">
-
+<div class="hero">
+<img src="../images/hero.jpg" width="1200" height="500" alt="imagetobereplaced">
+</div>
 <p>some interesting information and great design will go here eventually</p>
 
 <div class="container"> 
@@ -33,9 +34,10 @@ echo '<h1>You are not logged in';
            <h3> <?php echo Utils::escape($category->getName());?></h3>
            <p><?php echo Utils::escape($category->getDescription());?></p>
                            
-            <a href="index.php?module=activity&page=activity" class="btn btn-primary" role="button">read full article</a></div>   
-        <?php endforeach; ?>
-   
+            <a href="index.php?module=activity&page=list&cat_id=<?php echo $category->getId();?>" class="btn btn-primary" role="button">read full article</a>  
+            </div> 
+                <?php endforeach; ?>
+
 <?php endif; ?>
 
 

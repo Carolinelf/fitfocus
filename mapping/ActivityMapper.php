@@ -21,15 +21,25 @@ class ActivityMapper {
         if (array_key_exists('details', $properties)) {
             $activity->setDetails($properties['details']);
         }
-        if (array_key_exists('category_id', $properties)) {
-            $activity->setCategoryId($properties['category_id']);
-        }
+//        if (array_key_exists('category_id', $properties)) {
+//            $activity->setCategoryId($properties['category_id']);
+//        }
        
         if (array_key_exists('image_url', $properties)) {
             $activity->setImageUrl($properties['image_url']);
         }
         if (array_key_exists('status', $properties)) {
             $activity->setStatus($properties['status']);
+        }
+        
+        if (array_key_exists('category_id', $properties)) {
+            $category = new Category();
+            $category->setCategoryId($properties['category_id']);
+            if (array_key_exists('name', $properties)) {
+                $category->setName($properties['name']);
+            }
+            
+            $activity->setCategory($category);
         }
     }
 }

@@ -9,44 +9,28 @@
             <meta name="keywords" content="Fit Focus, fitness, mind, health, wellbeing" />
             <meta name="author" content="NetBeans PHP team" />
             <link href="css/main.css" rel="stylesheet">
-                <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css" rel="stylesheet">
-                    
-                    
-                    
-                    
-                    </head>
-                    <body>
-
-
-
-                        <header>
-
-<!--                            <ul class="nav navbar-nav navbar-right">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">About</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Works</a></li>
-                                <li><a href="#">News</a></li>
-                                <li><a href="#">Contact</a></li>
-                                <li>
-                                    <a class="btn btn-default btn-outline btn-circle collapsed"  data-toggle="collapse" href="#nav-collapse1" aria-expanded="false" aria-controls="nav-collapse1">Categories</a>
-                                </li>
-                            </ul>-->
-                            <!--<a href="index.php?module=user&page=list">Users</a></br>-->
-                            <?php if (!isset($_SESSION['user_id'])): ?>
-                                <a href="index.php?module=auth&page=login-add-edit">Login</a>
-                            <?php else: ?>
-                                <a href="index.php?module=auth&page=login-add-edit">Logout</a>
-                            <?php endif; ?>
-                            <a href="index.php?module=user&page=add-edit">Register</a>
-                            <a href="index.php?module=activity&page=activity">Activities</a>
-                            <a href="index.php?module=home&page=home">home</a>
-                        </header>
-                        
-                        
-                        
-                        <main class="container"><?php require $template; ?></main>
-                        <footer></footer>
-                    </body>
-                    </html>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css" rel="stylesheet">
+            <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"rel="stylesheet">
+    </head>
+    
+    
+    
+    <body>
+    <header>
+     
+        <?php if (!isset($_SESSION['user_id'])): ?>
+            <a href="index.php?module=auth&page=login-add-edit">Login</a>
+        <?php else: ?>
+            <a href="index.php?module=auth&page=logout">Logout</a>
+        <?php endif; ?>
+        <a href="index.php?module=user&page=add-edit">Register</a>
+        <a href="index.php?module=activity&page=list">Activities</a>
+        <a href="index.php?module=home&page=home">home</a>
+    </header>
+    <main class="container"><?php require $template; ?></main>
+    <footer>
+        
+    </footer>
+</body>
+</html>
 

@@ -1,10 +1,10 @@
 <?php
 
 $bookingDao = new BookingDao();
-$booking = Utils::getObjByGetId($bookingDao);
+$activity = Utils::getObjByGetId($bookingDao);
 
 
-$bookingDao->delete($booking->getId());
+$bookingDao->delete($activity->getId());
 Flash::addFlash('Booking deleted successfully.');
 
 Utils::redirect('list', array('module'=>'booking'));
